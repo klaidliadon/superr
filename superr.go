@@ -86,6 +86,16 @@ func (e errStack) Is(target error) bool {
 	return false
 }
 
+func (e errStack) As(target interface{}) bool {
+	if e.err != nil && errors.As(e.err, target) {
+		return true
+	}
+	if e.cause != nil && errors.As(e.cause, target) {
+		return true
+	}
+	return false
+}
+
 // GetErrorStack returns the nested tree of errors from superr, in the form
 // of a flat list.
 func GetErrorStack(err error) []error {
